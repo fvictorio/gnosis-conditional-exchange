@@ -2,6 +2,7 @@ import React, { ChangeEvent } from 'react'
 import styled from 'styled-components'
 import { BigNumber } from 'ethers/utils'
 
+import { IS_CORONA_FORK } from '../../../../common/constants'
 import { Button, Textfield, BigNumberInput } from '../../../common/index'
 import { ButtonContainer } from '../../../common/button_container'
 import { CreateCard } from '../../../common/create_card'
@@ -105,6 +106,7 @@ const FundingAndFeeStep = (props: Props) => {
             name="collateralId"
             onCollateralChange={handleCollateralChange}
             value={collateral}
+            disabled={IS_CORONA_FORK}
           />
         }
         title={'Collateral token'}

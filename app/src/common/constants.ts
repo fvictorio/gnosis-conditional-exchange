@@ -23,7 +23,12 @@ export const MARKET_FEE = parseFloat(process.env.REACT_APP_MARKET_FEE || '4.00')
 export const IS_CORONA_FORK = true
 
 export const CORONA_MARKET_CREATOR: string = process.env.REACT_APP_CORONA_MARKET_CREATOR || ''
-
 if (IS_CORONA_FORK && !CORONA_MARKET_CREATOR) {
   throw new Error('You need to set the REACT_APP_CORONA_MARKET_CREATOR environment variable')
+}
+
+export const CORONA_REALITIO_ARBITRATOR: string =
+  process.env.REACT_APP_CORONA_REALITIO_ARBITRATOR || ''
+if (IS_CORONA_FORK && !CORONA_REALITIO_ARBITRATOR) {
+  throw new Error('You need to set the REACT_APP_CORONA_REALITIO_ARBITRATOR environment variable')
 }

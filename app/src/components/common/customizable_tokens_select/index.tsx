@@ -15,6 +15,7 @@ interface Props {
   customValues: Token[]
   addCustomValue: (collateral: Token) => void
   context: ConnectedWeb3Context
+  disabled?: boolean
 }
 
 const Link = styled(FormRowLink)`
@@ -24,7 +25,15 @@ const Link = styled(FormRowLink)`
 `
 
 export const CustomizableTokensSelect = (props: Props) => {
-  const { context, name, value, customValues, onCollateralChange, addCustomValue } = props
+  const {
+    context,
+    name,
+    value,
+    customValues,
+    onCollateralChange,
+    addCustomValue,
+    disabled = false,
+  } = props
 
   const [isModalCollateralOpen, setModalCollateralState] = useState(false)
 
@@ -36,6 +45,7 @@ export const CustomizableTokensSelect = (props: Props) => {
         networkId={context.networkId}
         onTokenChange={onCollateralChange}
         value={value}
+        disabled={disabled}
       />
       {!IS_CORONA_FORK && (
         <Link onClick={() => setModalCollateralState(true)}>Add custom token</Link>

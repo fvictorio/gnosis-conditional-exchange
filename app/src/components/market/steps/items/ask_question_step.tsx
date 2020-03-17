@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react'
 import styled from 'styled-components'
 
+import { IS_CORONA_FORK } from '../../../../common/constants'
 import { CreateCard } from '../../../common/create_card'
 import { Button, Categories } from '../../../common/index'
 import { FormRow } from '../../../common/form_row'
@@ -130,7 +131,7 @@ const AskQuestionStep = (props: Props) => {
       <FormRow
         formField={
           <Arbitrators
-            disabled={!!loadedQuestionId}
+            disabled={!!loadedQuestionId || IS_CORONA_FORK}
             name="arbitrator"
             value={arbitrator}
             onChangeArbitrator={handleArbitratorChange}
