@@ -21,3 +21,9 @@ export const SINGLE_SELECT_TEMPLATE_ID = 2
 export const MARKET_FEE = parseFloat(process.env.REACT_APP_MARKET_FEE || '4.00')
 
 export const IS_CORONA_FORK = true
+
+export const CORONA_MARKET_CREATOR: string = process.env.REACT_APP_CORONA_MARKET_CREATOR || ''
+
+if (IS_CORONA_FORK && !CORONA_MARKET_CREATOR) {
+  throw new Error('You need to set the REACT_APP_CORONA_MARKET_CREATOR environment variable')
+}

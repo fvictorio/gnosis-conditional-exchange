@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { IS_CORONA_FORK } from '../../common/constants'
 import { MarketWithExtraData } from '../../util/types'
 import { MarketFilter } from '../../util/market_filter'
 import { RemoteData } from '../../util/remote_data'
@@ -45,7 +46,7 @@ export const MarketHome: React.FC<Props> = (props: Props) => {
   return (
     <>
       <SectionTitle title={'MARKETS'} />
-      {context.account && (
+      {context.account && !IS_CORONA_FORK && (
         <FilterStyled
           defaultOption={currentFilter}
           options={[
