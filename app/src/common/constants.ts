@@ -19,3 +19,5 @@ export const MAX_OUTCOME_ALLOWED = parseInt(process.env.REACT_APP_MAX_OUTCOME_AL
 export const SINGLE_SELECT_TEMPLATE_ID = 2
 
 export const MARKET_FEE = parseFloat(process.env.REACT_APP_MARKET_FEE || '4.00')
+
+export const IS_CORONA_FORK = true

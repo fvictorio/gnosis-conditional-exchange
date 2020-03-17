@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import { IS_CORONA_FORK } from '../../../common/constants'
 import { Tokens } from '../tokens'
 import { ModalCollateral } from './modal_collateral'
 import { Token } from '../../../util/types'
@@ -36,7 +37,9 @@ export const CustomizableTokensSelect = (props: Props) => {
         onTokenChange={onCollateralChange}
         value={value}
       />
-      <Link onClick={() => setModalCollateralState(true)}>Add custom token</Link>
+      {!IS_CORONA_FORK && (
+        <Link onClick={() => setModalCollateralState(true)}>Add custom token</Link>
+      )}
       <ModalCollateral
         context={context}
         isOpen={isModalCollateralOpen}

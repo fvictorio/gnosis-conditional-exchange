@@ -1,5 +1,6 @@
 import {
   INFURA_PROJECT_ID,
+  IS_CORONA_FORK,
   EARLIEST_GANACHE_BLOCK_TO_CHECK,
   EARLIEST_RINKEBY_BLOCK_TO_CHECK,
   EARLIEST_MAINNET_BLOCK_TO_CHECK,
@@ -247,7 +248,7 @@ export const getDefaultToken = (networkId: number) => {
     throw new Error(`Unsupported network id: '${networkId}'`)
   }
 
-  return getToken(networkId, 'dai')
+  return IS_CORONA_FORK ? getToken(networkId, 'usdc') : getToken(networkId, 'dai')
 }
 
 export const getTokensByNetwork = (networkId: number): Token[] => {

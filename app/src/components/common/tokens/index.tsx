@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Select } from '../select'
 import { getTokensByNetwork } from '../../../util/networks'
 import { Token } from '../../../util/types'
+import { IS_CORONA_FORK } from '../../../common/constants'
 
 interface Props {
   autoFocus?: boolean
@@ -22,7 +23,10 @@ export const Tokens = (props: Props) => {
   const { networkId, value, customValues, onTokenChange, ...restProps } = props
 
   const knownTokens = getTokensByNetwork(networkId)
-  const tokens = knownTokens.concat(customValues)
+  let tokens = knownTokens.concat(customValues)
+  if (IS_CORONA_FORK) {
+    tokens = knownTokens.filter(token => token.symbol === 'USDC')
+  }
   const options = tokens.map(token => ({
     label: token.symbol,
     value: token.address,
