@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react'
 
 import { ConnectedWeb3Context } from './connectedWeb3'
 import { useContracts, Contracts } from './useContracts'
-import { CORONA_MARKET_CREATOR, FETCH_EVENTS_CHUNK_SIZE, IS_CORONA_FORK } from '../common/constants'
+import {
+  CORONA_MARKET_CREATORS,
+  FETCH_EVENTS_CHUNK_SIZE,
+  IS_CORONA_FORK,
+} from '../common/constants'
 import { asyncFilter } from '../util/async_filter'
 import { MarketWithExtraData } from '../util/types'
 import { MarketFilter } from '../util/market_filter'
@@ -20,7 +24,8 @@ const buildFilterFn = (filter: MarketFilter, contracts: Contracts) => async (
   const { buildMarketMaker, conditionalTokens, realitio } = contracts
 
   if (IS_CORONA_FORK) {
-    return market.ownerAddress.toLowerCase() === CORONA_MARKET_CREATOR.toLowerCase()
+    const creator = market.ownerAddress.toLowerCase()
+    return CORONA_MARKET_CREATORS.includes(creator)
   }
 
   if (MarketFilter.is.allMarkets(filter)) {
