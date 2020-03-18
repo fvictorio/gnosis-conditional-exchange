@@ -32,3 +32,13 @@ export const CORONA_REALITIO_ARBITRATOR: string =
 if (IS_CORONA_FORK && !CORONA_REALITIO_ARBITRATOR) {
   throw new Error('You need to set the REACT_APP_CORONA_REALITIO_ARBITRATOR environment variable')
 }
+
+export const DISQUS_SHORTNAME: string = process.env.REACT_APP_DISQUS_SHORTNAME || ''
+if (IS_CORONA_FORK && !DISQUS_SHORTNAME) {
+  throw new Error('You need to set the REACT_APP_DISQUS_SHORTNAME environment variable')
+}
+
+export const DISQUS_URL: string = process.env.REACT_APP_DISQUS_URL || ''
+if (IS_CORONA_FORK && !DISQUS_URL) {
+  throw new Error('You need to set the REACT_APP_DISQUS_URL environment variable')
+}

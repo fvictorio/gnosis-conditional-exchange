@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 
+import { IS_CORONA_FORK } from '../../../common/constants'
 import { ThreeBoxComments } from '../../common/three_box_comments'
 import { ViewCard } from '../../common/view_card'
 import { Status, BalanceItem, Token, Arbitrator, OutcomeTableValue } from '../../../util/types'
@@ -13,6 +14,7 @@ import { BigNumber } from 'ethers/utils'
 import { TitleValue } from '../../common/title_value'
 import { DisplayArbitrator } from '../../common/display_arbitrator'
 import { GridThreeColumns } from '../../common/grid_three_columns'
+import { DisqusComments } from '../../common/disqus_comments'
 import { WhenConnected } from '../../../hooks/connectedWeb3'
 
 const SubsectionTitleStyled = styled(SubsectionTitle)`
@@ -113,7 +115,11 @@ const ViewWrapper = (props: Props) => {
           </ButtonContainer>
         </WhenConnected>
       </ViewCard>
-      <ThreeBoxComments threadName={marketMakerAddress} />
+      {IS_CORONA_FORK ? (
+        <DisqusComments marketMakerAddress={marketMakerAddress} />
+      ) : (
+        <ThreeBoxComments threadName={marketMakerAddress} />
+      )}
       {status === Status.Loading ? <Loading full={true} /> : null}
     </>
   )
