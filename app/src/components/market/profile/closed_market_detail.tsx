@@ -41,6 +41,8 @@ interface Props {
   marketMakerAddress: string
   isConditionResolved: boolean
   arbitrator: Maybe<Arbitrator>
+  templateId: BigNumber
+  rawQuestion: string
 }
 
 const logger = getLogger('Market::ClosedMarketDetail')
@@ -48,7 +50,7 @@ const logger = getLogger('Market::ClosedMarketDetail')
 export const ClosedMarketDetailWrapper = (props: Props) => {
   const context = useConnectedWeb3Context()
   const { library: provider, account } = context
-  const { conditionalTokens, oracle, buildMarketMaker } = useContracts(context)
+  const { conditionalTokens, oracle, buildMarketMaker, realitio } = useContracts(context)
 
   const {
     collateral: collateralToken,
@@ -59,6 +61,8 @@ export const ClosedMarketDetailWrapper = (props: Props) => {
     isConditionResolved,
     questionId,
     arbitrator,
+    templateId,
+    rawQuestion,
   } = props
 
   const [status, setStatus] = useState<Status>(Status.Ready)
@@ -72,8 +76,15 @@ export const ClosedMarketDetailWrapper = (props: Props) => {
       setStatus(Status.Loading)
       setMessage('Resolve condition...')
 
+      const question = await realitio.getQuestion(questionId)
+
       // Balances length is the number of outcomes
-      await oracle.resolveCondition(questionId, balances.length)
+      await oracle.resolveCondition(
+        questionId,
+        question.templateId,
+        question.rawQuestion,
+        balances.length,
+      )
 
       setStatus(Status.Ready)
     } catch (err) {
@@ -122,6 +133,8 @@ export const ClosedMarketDetailWrapper = (props: Props) => {
         collateralToken,
         marketMaker,
         conditionalTokens,
+        templateId,
+        rawQuestion,
       })
 
       setStatus(Status.Ready)

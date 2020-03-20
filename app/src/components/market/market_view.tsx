@@ -21,6 +21,8 @@ interface Props {
   arbitrator: Maybe<Arbitrator>
   isQuestionFinalized: boolean
   isConditionResolved: boolean
+  templateId: BigNumber
+  rawQuestion: string
 }
 
 const MarketView: React.FC<Props> = (props: Props) => {

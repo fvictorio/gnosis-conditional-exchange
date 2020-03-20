@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { BigNumber } from 'ethers/utils'
 
 import { ConnectedWeb3Context } from './connectedWeb3'
 import { useContracts } from './useContracts'
@@ -19,6 +20,8 @@ export const useQuestion = (
   const [arbitratorAddress, setArbitratorAddress] = useState<string>('')
   const [category, setCategory] = useState<string>('')
   const [outcomes, setOutcomes] = useState<string[]>([])
+  const [templateId, setTemplateId] = useState<BigNumber>(new BigNumber(0))
+  const [rawQuestion, setRawQuestion] = useState<string>('')
 
   useEffect(() => {
     let isSubscribed = true
@@ -34,6 +37,8 @@ export const useQuestion = (
           category,
           arbitratorAddress,
           outcomes,
+          templateId,
+          rawQuestion,
         } = await realitio.getQuestion(questionId)
 
         if (isSubscribed) {
@@ -43,6 +48,8 @@ export const useQuestion = (
           setArbitratorAddress(arbitratorAddress)
           setCategory(category)
           setOutcomes(outcomes)
+          setTemplateId(templateId)
+          setRawQuestion(rawQuestion)
         }
       } catch (error) {
         logger.error('There was an error fetching the question data:', error.message)
@@ -55,5 +62,14 @@ export const useQuestion = (
     }
   }, [marketMakerAddress, context, conditionalTokens, realitio, buildMarketMaker])
 
-  return { questionId, question, resolution, category, arbitratorAddress, outcomes }
+  return {
+    questionId,
+    question,
+    resolution,
+    category,
+    arbitratorAddress,
+    outcomes,
+    templateId,
+    rawQuestion,
+  }
 }

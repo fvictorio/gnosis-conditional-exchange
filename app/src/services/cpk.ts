@@ -55,6 +55,8 @@ interface CPKRedeemParams {
   oracle: OracleService
   marketMaker: MarketMakerService
   conditionalTokens: ConditionalTokenService
+  templateId: BigNumber
+  rawQuestion: string
 }
 
 class CPKService {
@@ -443,6 +445,8 @@ class CPKService {
     collateralToken,
     marketMaker,
     conditionalTokens,
+    templateId,
+    rawQuestion,
   }: CPKRedeemParams): Promise<TransactionReceipt> => {
     try {
       const signer = this.provider.getSigner()
@@ -454,7 +458,12 @@ class CPKService {
           operation: CPK.CALL,
           to: oracle.address,
           value: 0,
-          data: OracleService.encodeResolveCondition(questionId, numOutcomes),
+          data: OracleService.encodeResolveCondition(
+            questionId,
+            templateId,
+            rawQuestion,
+            numOutcomes,
+          ),
         })
       }
 

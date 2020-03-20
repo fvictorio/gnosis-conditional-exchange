@@ -53,6 +53,8 @@ export interface Question {
   arbitratorAddress: string
   category: string
   outcomes: string[]
+  rawQuestion: string
+  templateId: BigNumber
 }
 
 export enum OutcomeTableValue {

@@ -4,6 +4,7 @@ import { MarketView } from './market_view'
 import { useConnectedWeb3Context } from '../../hooks/connectedWeb3'
 import { Loading } from '../common/loading'
 import { useMarketMakerData } from '../../hooks/useMarketMakerData'
+import { useQuestion } from '../../hooks/useQuestion'
 
 interface Props {
   marketMakerAddress: string
@@ -15,6 +16,8 @@ const MarketViewContainer: React.FC<Props> = (props: Props) => {
   const { marketMakerAddress } = props
 
   const { marketMakerData, status } = useMarketMakerData(marketMakerAddress, context)
+
+  const { templateId, rawQuestion } = useQuestion(marketMakerAddress, context)
 
   const {
     marketMakerFunding,
@@ -48,6 +51,8 @@ const MarketViewContainer: React.FC<Props> = (props: Props) => {
       arbitrator={arbitrator}
       isQuestionFinalized={isQuestionFinalized}
       isConditionResolved={isConditionResolved}
+      templateId={templateId}
+      rawQuestion={rawQuestion}
     />
   )
 }

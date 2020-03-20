@@ -240,6 +240,8 @@ class MarketMakerService {
       arbitratorAddress,
       category,
       outcomes,
+      templateId,
+      rawQuestion,
     } = await this.realitio.getQuestion(questionId)
     // Know if a market is open or closed
     const isQuestionFinalized = await this.realitio.isFinalized(questionId)
@@ -257,6 +259,8 @@ class MarketMakerService {
       arbitratorAddress,
       status: marketStatus,
       fee,
+      templateId,
+      rawQuestion,
     }
   }
 
