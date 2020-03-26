@@ -4,9 +4,11 @@ import { withRouter } from 'react-router'
 import { RouteComponentProps } from 'react-router-dom'
 import { useWeb3Context } from 'web3-react/dist'
 
+import { IS_CORONA_FORK } from '../../../common/constants'
 import { ButtonConnectWallet } from '../button_connect_wallet'
 import { ButtonDisconnectWallet } from '../button_disconnect_wallet'
 import { ConnectedWeb3 } from '../../../hooks/connectedWeb3'
+import { useIsBlacklistedCountry } from '../../../hooks/geoJs'
 import { MainMenu } from '../main_menu'
 import { MobileMenu } from '../mobile_menu'
 import { ModalConnectWallet } from '../modal_connect_wallet'
@@ -83,12 +85,17 @@ const ButtonConnectWalletStyled = styled(ButtonConnectWallet)`
 `
 
 const HeaderContainer: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
+  const isBlacklistedCountry = useIsBlacklistedCountry()
   const context = useWeb3Context()
 
   const { ...restProps } = props
   const [isMenuOpen, setMenuState] = useState(false)
   const [isModalOpen, setModalState] = useState(false)
   const toggleMenu = () => setMenuState(!isMenuOpen)
+
+  // hide connect button if country is blacklisted, or the info isn't available yet
+  const hideConnectButton =
+    IS_CORONA_FORK && (isBlacklistedCountry === null || isBlacklistedCountry === true)
 
   return (
     <HeaderWrapper {...restProps}>
@@ -103,7 +110,7 @@ const HeaderContainer: React.FC<RouteComponentProps> = (props: RouteComponentPro
             }}
           />
         </ConnectedWeb3>
-        {!context.account && (
+        {!context.account && !hideConnectButton && (
           <ButtonConnectWalletStyled
             onClick={() => {
               setModalState(true)
