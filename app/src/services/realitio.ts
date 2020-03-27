@@ -1,12 +1,12 @@
 import { Contract, ethers, utils, Wallet } from 'ethers'
-import { BigNumber, bigNumberify } from 'ethers/utils'
+import { bigNumberify } from 'ethers/utils'
 import { Moment } from 'moment'
 import RealitioQuestionLib from '@realitio/realitio-lib/formatters/question'
 import RealitioTemplateLib from '@realitio/realitio-lib/formatters/template'
 
 import { REALITIO_TIMEOUT, SINGLE_SELECT_TEMPLATE_ID } from '../common/constants'
 import { getLogger } from '../util/logger'
-import { OutcomeSlot, Question, QuestionLog } from '../util/types'
+import { Question, QuestionLog } from '../util/types'
 import { Outcome } from '../components/common/outcomes'
 import { getEarliestBlockToCheck, getRealitioTimeout } from '../util/networks'
 
@@ -122,19 +122,33 @@ class RealitioService {
     const iface = new ethers.utils.Interface(realitioAbi)
     const event = iface.parseLog(logs[0])
 
-    const { question, template_id: templateId, opening_ts: openingTs, arbitrator } = event.values
+    const { question, opening_ts: openingTs, arbitrator } = event.values
+    const templateId = event.values.template_id.toNumber()
 
     const templates = ['bool', 'uint', 'single-select', 'multiple-select', 'datetime']
 
-    const templateType = templates[(templateId as BigNumber).toNumber()]
+    const isNuancedBinary = templateId === 5
 
-    const template = RealitioTemplateLib.defaultTemplateForType(templateType)
+    const nuancedBinaryTemplate = JSON.stringify({
+      title: '%s',
+      type: 'single-select',
+      outcomes: ['No', 'Mostly No', 'Undecided', 'Mostly Yes', 'Yes'],
+      category: '%s',
+      lang: '%s',
+    })
+
+    const templateType = templates[templateId]
+    const template = isNuancedBinary
+      ? nuancedBinaryTemplate
+      : RealitioTemplateLib.defaultTemplateForType(templateType)
     const questionLog: QuestionLog = RealitioQuestionLib.populatedJSONForTemplate(
       template,
       question,
     )
 
-    const { category, title, outcomes = [OutcomeSlot.Yes, OutcomeSlot.No] } = questionLog
+    const { category, title } = questionLog
+
+    const outcomes = isNuancedBinary || !questionLog.outcomes ? ['No', 'Yes'] : questionLog.outcomes
 
     return {
       questionId,
@@ -142,7 +156,7 @@ class RealitioService {
       category: category === 'undefined' ? '' : category,
       resolution: new Date(openingTs * 1000),
       arbitratorAddress: arbitrator,
-      outcomes: outcomes,
+      outcomes,
       rawQuestion: question,
       templateId,
     }

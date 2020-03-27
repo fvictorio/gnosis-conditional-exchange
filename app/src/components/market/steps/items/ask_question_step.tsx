@@ -63,7 +63,7 @@ const AskQuestionStep = (props: Props) => {
     loadedQuestionId,
   } = values
 
-  const error = !question || !category || !resolution
+  const error = !question || !resolution
 
   const validate = (e: any) => {
     e.preventDefault()

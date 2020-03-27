@@ -9,11 +9,6 @@ export enum Status {
   Error = 'Error',
 }
 
-export enum OutcomeSlot {
-  Yes = 'Yes',
-  No = 'No',
-}
-
 export interface BalanceItem {
   outcomeName: string
   probability: number
