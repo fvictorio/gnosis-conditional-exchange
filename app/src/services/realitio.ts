@@ -127,7 +127,7 @@ class RealitioService {
 
     const templates = ['bool', 'uint', 'single-select', 'multiple-select', 'datetime']
 
-    const isNuancedBinary = templateId === 5
+    const isNuancedBinary = templateId === 5 || templateId === 6
 
     const nuancedBinaryTemplate = JSON.stringify({
       title: '%s',
