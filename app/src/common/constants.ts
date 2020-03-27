@@ -27,7 +27,7 @@ export const BLACKLISTED_COUNTRIES = (process.env.REACT_APP_BLACKLISTED_COUNTRIE
   .split(',')
   .filter(Boolean)
 
-export const IS_CORONA_FORK = true
+export const IS_CORONA_FORK = process.env.REACT_APP_IS_CORONA_FORK === 'true'
 
 export const CORONA_MARKET_CREATORS = (process.env.REACT_APP_CORONA_MARKET_CREATORS || '')
   .split(',')
