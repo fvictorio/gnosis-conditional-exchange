@@ -76,7 +76,7 @@ const networks: { [K in NetworkId]: Network } = {
       realitio: '0x3D00D77ee771405628a4bA4913175EcC095538da',
       marketMakerFactory: '0x0fB4340432e56c014fa96286de17222822a9281b',
       conditionalTokens: '0xe6Cdc22F99FD9ffdC03647C7fFF5bB753a4eBB21',
-      oracle: '0x08b570F5c81cdC279eA92361D438A163C5473570',
+      oracle: '0x576b76eebe6b5411c0ef310e65de9bff8a60130f',
     },
   },
   [networkIds.GANACHE]: {
