@@ -107,7 +107,9 @@ const ViewWrapper = (props: Props) => {
         {marketHasDetails && details()}
         <WhenConnected>
           <ButtonContainer>
-            <ButtonAnchor href={`/#/${marketMakerAddress}/fund`}>Fund</ButtonAnchor>
+            {!IS_CORONA_FORK && (
+              <ButtonAnchor href={`/#/${marketMakerAddress}/fund`}>Fund</ButtonAnchor>
+            )}
             {userHasShares && (
               <ButtonAnchor href={`/#/${marketMakerAddress}/sell`}>Sell</ButtonAnchor>
             )}
