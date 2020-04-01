@@ -47,15 +47,16 @@ export const MarketWizardCreator = (props: Props) => {
     funding: new BigNumber('0'),
     outcomes: [
       {
-        name: 'Yes',
+        name: 'No',
         probability: 50,
       },
       {
-        name: 'No',
+        name: 'Yes',
         probability: 50,
       },
     ],
     loadedQuestionId: null,
+    isNuancedBinary: false,
   }
 
   const [currentStep, setCurrentStep] = useState(1)
@@ -216,6 +217,14 @@ export const MarketWizardCreator = (props: Props) => {
     setMarketdata(newMarketData)
   }
 
+  const handleIsNuancedBinaryChange = (event: any) => {
+    const isNuancedBinary = event.target.checked
+    setMarketdata({
+      ...marketData,
+      isNuancedBinary,
+    })
+  }
+
   const handleDateChange = (date: Date | null) => {
     const newMarketData = {
       ...marketData,
@@ -242,6 +251,7 @@ export const MarketWizardCreator = (props: Props) => {
       funding,
       outcomes,
       loadedQuestionId,
+      isNuancedBinary,
     } = marketData
 
     switch (currentStep) {
@@ -287,8 +297,10 @@ export const MarketWizardCreator = (props: Props) => {
               outcomes,
               question,
               loadedQuestionId,
+              isNuancedBinary,
             }}
             handleOutcomesChange={handleOutcomesChange}
+            handleIsNuancedBinaryChange={handleIsNuancedBinaryChange}
           />
         )
       case 4:

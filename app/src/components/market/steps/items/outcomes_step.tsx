@@ -7,6 +7,7 @@ import { ButtonContainer } from '../../../common/button_container'
 import { ButtonLink } from '../../../common/button_link'
 import { Well } from '../../../common/well'
 import { MAX_OUTCOME_ALLOWED } from '../../../../common/constants'
+import { Checkbox } from '../../../common/checkbox'
 
 const ButtonLinkStyled = styled(ButtonLink)`
   margin-right: auto;
@@ -20,6 +21,23 @@ const ButtonContainerStyled = styled(ButtonContainer)`
   padding-top: 10px;
 `
 
+const StyledCheckbox = styled(Checkbox)`
+  font-size: 12px;
+  margin-right: 5px;
+`
+
+const CheckboxWrapper = styled.div`
+  text-align: right;
+`
+
+const StyledLabel = styled.label`
+  color: ${props => props.theme.colors.textColor};
+  display: inline;
+  font-size: 12px;
+  line-height: 1.2;
+  margin: 0;
+`
+
 interface Props {
   back: () => void
   next: () => void
@@ -27,13 +45,15 @@ interface Props {
     question: string
     outcomes: Outcome[]
     loadedQuestionId: Maybe<string>
+    isNuancedBinary: boolean
   }
   handleOutcomesChange: (newOutcomes: Outcome[]) => any
+  handleIsNuancedBinaryChange: (event: any) => any
 }
 
 const OutcomesStep = (props: Props) => {
   const { handleOutcomesChange, values } = props
-  const { question, outcomes, loadedQuestionId } = values
+  const { isNuancedBinary, question, outcomes, loadedQuestionId } = values
 
   const errorMessages = []
 
@@ -59,7 +79,8 @@ const OutcomesStep = (props: Props) => {
   const error =
     totalProbabilities !== 100 || someEmptyName || someEmptyProbability || outcomes.length < 2
 
-  const canAddOutcome = outcomes.length < MAX_OUTCOME_ALLOWED && !loadedQuestionId
+  const canAddOutcome =
+    outcomes.length < MAX_OUTCOME_ALLOWED && !loadedQuestionId && !isNuancedBinary
 
   return (
     <CreateCard>
@@ -72,9 +93,17 @@ const OutcomesStep = (props: Props) => {
         totalProbabilities={totalProbabilities}
         onChange={handleOutcomesChange}
         errorMessages={errorMessages}
-        disabled={!!loadedQuestionId}
+        disabled={!!loadedQuestionId || isNuancedBinary}
         canAddOutcome={canAddOutcome}
       />
+      <CheckboxWrapper>
+        <StyledCheckbox
+          title="Nuanced binary"
+          name="distributeUniformly"
+          onChange={props.handleIsNuancedBinaryChange}
+        />
+        <StyledLabel htmlFor="distributeUniformly">Nuanced binary</StyledLabel>
+      </CheckboxWrapper>
 
       <ButtonContainerStyled>
         <ButtonLinkStyled onClick={props.back}>‹ Back</ButtonLinkStyled>

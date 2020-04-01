@@ -121,4 +121,5 @@ export interface MarketData {
   funding: BigNumber
   outcomes: Outcome[]
   loadedQuestionId: Maybe<string>
+  isNuancedBinary: boolean
 }

@@ -167,6 +167,7 @@ class CPKService {
         outcomes,
         category,
         loadedQuestionId,
+        isNuancedBinary,
       } = marketData
 
       if (!resolution) {
@@ -202,6 +203,7 @@ class CPKService {
             arbitrator.address,
             openingDateMoment,
             networkId,
+            isNuancedBinary,
           ),
         })
         questionId = await realitio.askQuestionConstant(

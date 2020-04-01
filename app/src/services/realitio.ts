@@ -196,11 +196,12 @@ class RealitioService {
     arbitratorAddress: string,
     openingDateMoment: Moment,
     networkId: number,
+    isNuancedBinary: boolean,
   ): string => {
     const openingTimestamp = openingDateMoment.unix()
     const outcomeNames = outcomes.map((outcome: Outcome) => outcome.name)
     const questionText = RealitioQuestionLib.encodeText(
-      'single-select',
+      isNuancedBinary ? 'binary' : 'single-select',
       question,
       outcomeNames,
       category,
@@ -209,7 +210,7 @@ class RealitioService {
     const timeoutResolution = REALITIO_TIMEOUT || getRealitioTimeout(networkId)
 
     const args = [
-      SINGLE_SELECT_TEMPLATE_ID,
+      isNuancedBinary ? (networkId === 4 ? 5 : 6) : SINGLE_SELECT_TEMPLATE_ID,
       questionText,
       arbitratorAddress,
       timeoutResolution,
