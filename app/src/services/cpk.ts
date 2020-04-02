@@ -214,6 +214,7 @@ class CPKService {
           openingDateMoment,
           networkId,
           this.cpk.address,
+          isNuancedBinary,
         )
       }
       logger.log(`QuestionID ${questionId}`)
